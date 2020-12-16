@@ -1,0 +1,58 @@
+# Quantum Computer Programming Teleportal Algorithm #
+
+The ability to transfer (aka copy/paste) files from one location on our classic computers is easy. In fact, this is a common practice we do every single day.
+However, this simple task on a Quantum Computer proves to be much more difficult as when you copy data from one Qubit, you are indeed destroying it.
+
+We have a solution in which we will design a basic algorithm in order to easily transfer data from Qubit 0 to Qubit 2.
+
+To move a bit from 0 to 1, utilize an X-Gate 
+
+This can be performed with;
+circuit.x(0)
+
+This sets a default value on the Q0 string with X-Gate.
+
+Now we are going to start our intanglement between Q1 & Q2
+Apply a Hadarmard Gate as well as an X-Gate
+circuit.h(1)
+circuit.cx(1,2)
+
+Now we are going to setup a Controlled Gate and a secondary Hadarmard Gate;
+circuit.cx(0,1)
+circuit.h(0)
+
+Now we will create our measurments;
+circuit.barrier() ~ This allows us to visually see differences in previous codes
+circuit.measure([0,1], [0,1])
+
+Create a secondary barrier to seperate code blocks
+circuit.barrier()
+
+Now we are going to apply our Controled Gate to switch between Q1 & Q2 Strings
+circuit.cx(1,2)
+
+And finally, we will be setting up a CPhase Gate to assist on linking our Qubits together
+circuit.cz(0,2)
+
+And we can draw out our pattern;
+circuit.draw(output='mpl')
+
+Out come looks like this;
+
+Q0: |0> ---X---|------*-H-|--/------|-----*--
+Q1: |0> -------|--H-*-+---|--|---/--|--*--|--
+Q2: |0> -------|----+-----|--|---|--|--+--*--
+
+We took "X" on Q0 and moved it to Q2!
+This representation of Teleportation from one Qubit to Another is not an easy task. But it is indeed exciting to discover how this operation...operates!
+
+To execute on a working Quantum Computer;
+IBMQ.load_account()
+provider = IBQM.get_provider('ibm-q')
+qcomop = provider.get_backend('ibmq_valencia')
+job = execute(circuit, backend=qcomp)
+from qiskit.tools.monitor import job_monitor
+job_monitor(job)
+result = job.result()
+plot_histogram(result.get_counts(circuit))
+
