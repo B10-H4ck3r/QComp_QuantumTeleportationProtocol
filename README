@@ -46,13 +46,4 @@ Q2: |0> -------|----+-----|--|---|--|--+--*--
 We took "X" on Q0 and moved it to Q2!
 This representation of Teleportation from one Qubit to Another is not an easy task. But it is indeed exciting to discover how this operation...operates!
 
-To execute on a working Quantum Computer;
-IBMQ.load_account()
-provider = IBQM.get_provider('ibm-q')
-qcomop = provider.get_backend('ibmq_valencia')
-job = execute(circuit, backend=qcomp)
-from qiskit.tools.monitor import job_monitor
-job_monitor(job)
-result = job.result()
-plot_histogram(result.get_counts(circuit))
 
